@@ -30,6 +30,7 @@ def login_google():
 def get_header_data():
     print(request.json)
     user = User((request.json)['token'])
+    print(user.get_header_data())
     return user.get_header_data()
 
 @app.route("/api/get-clubs-list", methods=['GET'])

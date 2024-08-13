@@ -42,7 +42,7 @@ from flask import make_response
 # })
 
 
-# Initialize CORS
+# # Initialize CORS
 def init_curs():
     response = make_response()
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
