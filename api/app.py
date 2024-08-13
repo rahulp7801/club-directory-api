@@ -48,6 +48,12 @@ def get_clubs_by_tags():
     clubs = (club_list.get_clubs_by_tags(tags))
     return jsonify(clubs)
 
+@app.route("/api/get-all-tags", methods=["GET"])
+def get_all_tags():
+    club_list = VistaClubLookup()
+    return jsonify(club_list.get_all_tags())
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
