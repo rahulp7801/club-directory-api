@@ -150,8 +150,6 @@ class VistaClubLookup:
         print(self.easy_df)
 
     def get_json_string(self):
-        with open('output.json', 'w') as json_file:
-            json_file.write(f"{VistaClubHelper.convert_to_dictlist(self.easy_df)}")
         return json.dumps(VistaClubHelper.convert_to_dictlist(self.easy_df))
 
     # Returns a list of VistaClass Objects
