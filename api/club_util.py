@@ -2,6 +2,7 @@ import pandas as pd
 import constants
 import json
 from jsonschema import validate, ValidationError
+import ast
 
 
 # Class Name: String
@@ -17,14 +18,40 @@ class VistaClub:
     def __init__(self, name, description, president, vp, treasurer, secretary, webmaster, historian, image, tags, advisor, times, room, video) -> None:
         self.name = name
         self.description = description
-        self.president = president.split(", ")
-        self.vp = vp.split(", ")
-        self.treasurer = treasurer.split(", ")
-        self.secretary = secretary.split(", ")
-        self.webmaster = webmaster.split(", ")
-        self.historian = historian.split(", ")
+        try:
+            self.president = president.split(", ")
+        except AttributeError:
+            self.president = president
+        try:
+            self.vp = vp.split(", ")
+
+        except AttributeError:
+            self.vp = vp
+        try:
+            self.treasurer = treasurer.split(", ")
+        except AttributeError:
+            self.treasurer = treasurer
+        try:
+            self.secretary = secretary.split(", ")
+
+        except AttributeError:
+            self.secretary = secretary
+        try:
+            self.webmaster = webmaster.split(", ")
+
+        except AttributeError:
+            self.webmaster = webmaster
+        try:
+            self.historian = historian.split(", ")
+
+        except AttributeError:
+            self.historian = historian
         self.image = image
-        self.tags = tags.split(", ")
+        try:
+
+            self.tags = tags.split(", ")
+        except AttributeError:
+            self.tags = tags
         self.advisor = advisor
         self.times = times
         self.room = room
@@ -136,12 +163,17 @@ class VistaClubLookup:
         if df is None:
             # Read from CSV if no DataFrame is provided
             self.df = pd.read_csv(constants.CLUB_SHEET_URL)
-            print(self.df)
+
+
         else:
             # Use the provided DataFrame
             self.df = df
-
+            
         self.easy_df = VistaClubHelper.convert_data(self.df.to_dict(orient="records"))
+        self.df = VistaClubHelper.convert_to_df(self.easy_df)
+
+
+
 
     def print_db(self):
         print(self.df)
@@ -153,8 +185,8 @@ class VistaClubLookup:
         return json.dumps(VistaClubHelper.convert_to_dictlist(self.easy_df))
 
     # Returns a list of VistaClass Objects
-    def get_classes_by_category(self, category:str):
-        filtered_df = self.df[self.df["Category Code"] == category.lower().strip()]
+    def get_clubs_by_tags(self, values_to_check:list):
+        filtered_df = self.df[self.df['Tags'].apply(lambda tags: all(value in tags for value in values_to_check))]
         return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
     
     def get_classes_by_weight(self, is_weighted:bool):
@@ -183,7 +215,13 @@ class VistaClubLookup:
 
 
 clown = VistaClubLookup()
-print(clown.get_json_string())
+
+classlist = clown.get_clubs_by_tags(["xiong"])
+
+for i in classlist:
+    print(i.get_name())
+
+
 
 
 
