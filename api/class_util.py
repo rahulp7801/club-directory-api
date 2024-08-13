@@ -1,5 +1,8 @@
 import pandas as pd
 import constants
+import json
+from jsonschema import validate, ValidationError
+
 
 # Class Name: String
 # Grades: String (Will convert to list)
@@ -10,44 +13,60 @@ import constants
 # Code: String
 # Rigor: float
 # Homework: int
-class VistaClass:
-    def __init__(self, name, grades, is_weighted, is_three_year, ucag, prereq, code, rigor, homework) -> None:
+class VistaClub:
+    def __init__(self, name, description, president, vp, treasurer, secretary, webmaster, historian, image, tags, advisor, times, room) -> None:
         self.name = name
-        self.grades = self._convert_grades_list(grades)
-        self.is_weighted = is_weighted
-        self.is_three_year = is_three_year
-        self.ucag = ucag
-        self.prereq = prereq
-        self.code = code
-        self.rigor = rigor
-        self.hw = homework
+        self.description = description
+        self.president = president.split(", ")
+        self.vp = vp.split(", ")
+        self.treasurer = treasurer.split(", ")
+        self.secretary = secretary.split(", ")
+        self.webmaster = webmaster.split(", ")
+        self.historian = historian.split(", ")
+        self.image = image
+        self.tags = tags.split(", ")
+        self.advisor = advisor
+        self.times = times
+        self.room = room
 
     def get_name(self) -> str:
         return self.name
     
-    def get_grades(self) -> list:
-        return self.grades
+    def get_desc(self) -> str:
+        return self.description
     
-    def get_prerequisites(self) -> str:
-        return self.prereq
+    def get_president(self) -> list:
+        return self.president
     
-    def get_ucreq(self) -> str:
-        return self.ucag
-    
-    def get_third_year_req(self) -> bool:
-        return self.is_three_year
-    
-    def get_is_weighted(self) -> bool:
-        return self.is_weighted
-    
-    def get_class_code(self) -> str:
-        return self.code
-    
-    def get_rigor(self) -> float:
-        return self.rigor
+    def get_vp(self) -> list:
+        return self.vp
 
-    def get_hw_time(self) -> int:
-        return self.hw
+    def get_historian(self) -> list:
+        return self.historian
+    
+    def get_treasurer(self) -> list:
+        return self.treasurer
+    
+    def get_secretary(self) -> list:
+        return self.secretary
+    
+    def get_webmaster(self) -> list:
+        return self.webmaster
+    
+    def get_club_image(self) -> str:
+        return self.image
+
+    def get_club_tags(self) -> list:
+        return self.tags
+    
+    def get_club_advisor(self) -> str:
+        return self.advisor
+    
+    def get_meeting_times(self) -> str:
+        return self.times
+    
+    def get_meeting_room(self) -> str:
+        return self.room
 
 
     # Populate grade list given a range from the table
@@ -67,14 +86,14 @@ class VistaClass:
     def fill_nums(lower, upper):
         return list(range(lower, upper + 1))
 
-class VistaClassHelper:
+class VistaClubHelper:
 
     @staticmethod
     def convert_data(data):    
         vista_class_list = []
 
         for i in data:
-            vista_class_list.append(VistaClass(i['Course Name'], i['Grade Levels'], i['Weighted'], i['3rd Year Science'], i['UC a-g approved course'], i['Prerequisite'], i['Category Code'], i['Rigor'], i['Homework']))
+            vista_class_list.append(VistaClub(i['Club Name'], i['Club Description'], i['President'], i['Vice President'], i['Treasurer'], i['Secretary'], i['Webmaster'], i['Historian'], i['Image'], i['Tags'], i['Advisor'], i['Meeting Times'], i['Meeting Room']))
 
         return vista_class_list
 
@@ -82,22 +101,43 @@ class VistaClassHelper:
     def convert_to_df(data):
         new_list = []
         for i in data:
-            new_list.append({"Course Name": i.get_name(), "Grade Levels": i.get_grades(), "Weighted": i.get_is_weighted(), "3rd Year Science": i.get_third_year_req(), "UC a-g approved course": i.get_ucreq(), "Prerequisite": i.get_prerequisites(), "Category Code": i.get_class_code(), "Rigor": i.get_rigor(), "Homework": i.get_hw_time()})
+            new_list.append({"Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room()})
         
         df = pd.DataFrame(new_list)
         return df
 
-class VistaClassLookup:
+    @staticmethod
+    def convert_to_dictlist(data):
+        new_list = []
+        count = 1
+        for i in data:
+            new_list.append({"id": count, "Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room()})
+            count +=1
+        return new_list
+    
+    
+    schema = {
+    "type": "object",
+    "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "number"},
+        "grades": {"type": "number"},
+    },
+    "required": ["name", "age"]
+    }
+
+class VistaClubLookup:
 
     def __init__(self, df=None):
         if df is None:
             # Read from CSV if no DataFrame is provided
-            self.df = pd.read_csv(constants.SHEET_URL)
+            self.df = pd.read_csv(constants.CLUB_SHEET_URL)
+            print(self.df)
         else:
             # Use the provided DataFrame
             self.df = df
 
-        self.easy_df = VistaClassHelper.convert_data(self.df.to_dict(orient="records"))
+        self.easy_df = VistaClubHelper.convert_data(self.df.to_dict(orient="records"))
 
     def print_db(self):
         print(self.df)
@@ -105,14 +145,19 @@ class VistaClassLookup:
     def print_dict(self):
         print(self.easy_df)
 
+    def get_json_string(self):
+        with open('output.json', 'w') as json_file:
+            json_file.write(f"{VistaClubHelper.convert_to_dictlist(self.easy_df)}")
+        return json.dumps(VistaClubHelper.convert_to_dictlist(self.easy_df))
+
     # Returns a list of VistaClass Objects
     def get_classes_by_category(self, category:str):
         filtered_df = self.df[self.df["Category Code"] == category.lower().strip()]
-        return VistaClassHelper.convert_data(filtered_df.to_dict(orient="records"))
+        return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
     
     def get_classes_by_weight(self, is_weighted:bool):
         filtered_df = self.df[self.df["Weighted"] == is_weighted]
-        return VistaClassHelper.convert_data(filtered_df.to_dict(orient="records"))
+        return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
     
     # Returns all classes a grade can take
     def get_classes_by_grade(self, grade:int):
@@ -124,22 +169,23 @@ class VistaClassLookup:
     
     def get_classes_by_ucreq(self, req:str):
         filtered_df = self.df[self.df["UC a-g approved course"] == req.lower().strip()]
-        return VistaClassHelper.convert_data(filtered_df.to_dict(orient="records"))
+        return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
     
     def sort_classes_by_rigor(self, asc=True):
         sorted_df = self.df.sort_values(by="Rigor", ascending=asc)
-        return VistaClassHelper.convert_data(sorted_df.to_dict(orient='records'))
+        return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
 
     def sort_classes_by_hw(self, asc=True):
         sorted_df = self.df.sort_values(by="Homework", ascending=asc)
-        return VistaClassHelper.convert_data(sorted_df.to_dict(orient='records'))
+        return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
 
 
-clown = VistaClassLookup()
-gang = (clown.get_classes_by_grade(9))
-slime = VistaClassLookup(VistaClassHelper.convert_to_df(gang))
-for i in slime.sort_classes_by_rigor(False):
-    print(f"Name: {i.get_name()}, Rigor: {i.get_rigor()}")
+
+
+
+clown = VistaClubLookup()
+print(clown.get_json_string())
+
 
 
 

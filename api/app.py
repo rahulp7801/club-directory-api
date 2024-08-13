@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 from utilities import init_curs
 from user_util import User
+from class_util import VistaClubLookup
 
 app = Flask(__name__)
 CORS(app)
@@ -31,6 +32,11 @@ def get_header_data():
     user = User((request.json)['token'])
     return user.get_header_data()
 
+@app.route("/api/get-clubs-list", methods=['GET'])
+def get_classes_list():
+    club_list = VistaClubLookup()
+    print(club_list.get_json_string())
+    return jsonify(club_list.get_json_string())
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
