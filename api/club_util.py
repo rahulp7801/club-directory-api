@@ -2,8 +2,6 @@ import pandas as pd
 import constants
 import json
 from jsonschema import validate, ValidationError
-import ast
-
 
 # Class Name: String
 # Grades: String (Will convert to list)
@@ -170,7 +168,7 @@ class VistaClubLookup:
             self.df = df
             
         self.easy_df = VistaClubHelper.convert_data(self.df.fillna('null').to_dict(orient="records"))
-        self.df = VistaClubHelper.convert_to_df(self.easy_df)
+        self.df = VistaClubHelper.convert_to_df(self.easy_df) # fixes list types when using the method that we create since it accounts for it
 
 
     def print_db(self):
@@ -193,30 +191,31 @@ class VistaClubLookup:
         print(exploded_tags.unique().tolist())
         return json.dumps(exploded_tags.unique().tolist())
     
-    def get_classes_by_weight(self, is_weighted:bool):
-        filtered_df = self.df[self.df["Weighted"] == is_weighted]
-        return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
+    ''' OLD CODE FOR CLASSES DEPRECATE'''
+    # def get_classes_by_weight(self, is_weighted:bool):
+    #     filtered_df = self.df[self.df["Weighted"] == is_weighted]
+    #     return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
     
-    # Returns all classes a grade can take
-    def get_classes_by_grade(self, grade:int):
-        class_list = []
-        for i in self.easy_df:
-            if grade in i.get_grades():
-                class_list.append(i)
-        return class_list
+    # # Returns all classes a grade can take
+    # def get_classes_by_grade(self, grade:int):
+    #     class_list = []
+    #     for i in self.easy_df:
+    #         if grade in i.get_grades():
+    #             class_list.append(i)
+    #     return class_list
     
-    def get_classes_by_ucreq(self, req:str):
-        filtered_df = self.df[self.df["UC a-g approved course"] == req.lower().strip()]
-        return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
+    # def get_classes_by_ucreq(self, req:str):
+    #     filtered_df = self.df[self.df["UC a-g approved course"] == req.lower().strip()]
+    #     return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
     
-    def sort_classes_by_rigor(self, asc=True):
-        sorted_df = self.df.sort_values(by="Rigor", ascending=asc)
-        return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
+    # def sort_classes_by_rigor(self, asc=True):
+    #     sorted_df = self.df.sort_values(by="Rigor", ascending=asc)
+    #     return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
 
-    def sort_classes_by_hw(self, asc=True):
-        sorted_df = self.df.sort_values(by="Homework", ascending=asc)
-        return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
-
+    # def sort_classes_by_hw(self, asc=True):
+    #     sorted_df = self.df.sort_values(by="Homework", ascending=asc)
+    #     return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
+    ''' END DEPRECATED CODE '''
 
 clown = VistaClubLookup()
 # clown.get_all_tags()
