@@ -184,7 +184,7 @@ class VistaClubLookup:
 
     # Returns a list of VistaClass Objects
     def get_clubs_by_tags(self, values_to_check:list):
-        filtered_df = self.df[self.df['Tags'].apply(lambda tags: all(value.lower() in tags for value in values_to_check))]
+        filtered_df = self.df[self.df['Tags'].apply(lambda tags: all(value.lower() in [tag.lower() for tag in tags] for value in values_to_check))]
         return json.dumps(VistaClubHelper.convert_to_dictlist(VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))))
 
     def get_all_tags(self):
@@ -219,9 +219,10 @@ class VistaClubLookup:
 
 
 clown = VistaClubLookup()
-clown.get_all_tags()
+# clown.get_all_tags()
 
-# classlist = clown.get_clubs_by_tags(["xiong"])
+# classlist = clown.get_clubs_by_tags(["cs"])
+# print(classlist)
 
 # for i in classlist:
 #     print(i.get_name())
