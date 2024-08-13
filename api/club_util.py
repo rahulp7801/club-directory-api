@@ -187,7 +187,7 @@ class VistaClubLookup:
     # Returns a list of VistaClass Objects
     def get_clubs_by_tags(self, values_to_check:list):
         filtered_df = self.df[self.df['Tags'].apply(lambda tags: all(value in tags for value in values_to_check))]
-        return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
+        return json.dumps(VistaClubHelper.convert_to_dictlist(VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))))
     
     def get_classes_by_weight(self, is_weighted:bool):
         filtered_df = self.df[self.df["Weighted"] == is_weighted]
@@ -216,10 +216,10 @@ class VistaClubLookup:
 
 clown = VistaClubLookup()
 
-classlist = clown.get_clubs_by_tags(["xiong"])
+# classlist = clown.get_clubs_by_tags(["xiong"])
 
-for i in classlist:
-    print(i.get_name())
+# for i in classlist:
+#     print(i.get_name())
 
 
 

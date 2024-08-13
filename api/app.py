@@ -39,5 +39,15 @@ def get_classes_list():
     print(club_list.get_json_string())
     return jsonify(club_list.get_json_string())
 
+
+@app.route("/api/get-clubs-by-tag", methods=['POST'])
+def get_clubs_by_tags():
+    # "tags": []
+    tags = request.json['tags']
+    club_list = VistaClubLookup()
+    clubs = (club_list.get_clubs_by_tags(tags))
+    return jsonify(clubs)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
