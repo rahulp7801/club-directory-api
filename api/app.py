@@ -42,12 +42,21 @@ def get_classes_list():
 
 @app.route("/api/get-clubs-by-tag", methods=['POST'])
 def get_clubs_by_tags():
-    # "tags": []
+
     tags = request.json.get("tags", [])
-    print(tags)
+    print(request.json)
+    print("Received tags:", tags)  # Debug: Print received tags
+
+    if not tags:
+        print("No tags received or empty list provided")
+        return jsonify([])
+
     club_list = VistaClubLookup()
-    clubs = (club_list.get_clubs_by_tags(tags))
+    clubs = club_list.get_clubs_by_tags(tags)
+    
+    print("Matching clubs:", clubs)  # Debug: Print matching clubs
     return jsonify(clubs)
+
 
 @app.route("/api/get-all-tags", methods=["GET"])
 def get_all_tags():
