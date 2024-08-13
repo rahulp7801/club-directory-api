@@ -44,6 +44,7 @@ def get_classes_list():
 def get_clubs_by_tags():
     # "tags": []
     tags = request.json['tags']
+    print(tags)
     club_list = VistaClubLookup()
     clubs = (club_list.get_clubs_by_tags(tags))
     return jsonify(clubs)
@@ -52,8 +53,6 @@ def get_clubs_by_tags():
 def get_all_tags():
     club_list = VistaClubLookup()
     return jsonify(club_list.get_all_tags())
-
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
