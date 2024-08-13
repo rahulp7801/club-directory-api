@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 from utilities import init_curs
 from user_util import User
-from class_util import VistaClubLookup
+from club_util import VistaClubLookup
 
 app = Flask(__name__)
 CORS(app)

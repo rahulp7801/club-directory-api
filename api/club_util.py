@@ -14,7 +14,7 @@ from jsonschema import validate, ValidationError
 # Rigor: float
 # Homework: int
 class VistaClub:
-    def __init__(self, name, description, president, vp, treasurer, secretary, webmaster, historian, image, tags, advisor, times, room) -> None:
+    def __init__(self, name, description, president, vp, treasurer, secretary, webmaster, historian, image, tags, advisor, times, room, video) -> None:
         self.name = name
         self.description = description
         self.president = president.split(", ")
@@ -28,6 +28,7 @@ class VistaClub:
         self.advisor = advisor
         self.times = times
         self.room = room
+        self.video = video
 
     def get_name(self) -> str:
         return self.name
@@ -68,6 +69,9 @@ class VistaClub:
     def get_meeting_room(self) -> str:
         return self.room
 
+    def get_club_video(self) -> str:
+        return self.video
+
 
     # Populate grade list given a range from the table
     def _convert_grades_list(self, grades):
@@ -93,7 +97,7 @@ class VistaClubHelper:
         vista_class_list = []
 
         for i in data:
-            vista_class_list.append(VistaClub(i['Club Name'], i['Club Description'], i['President'], i['Vice President'], i['Treasurer'], i['Secretary'], i['Webmaster'], i['Historian'], i['Image'], i['Tags'], i['Advisor'], i['Meeting Times'], i['Meeting Room']))
+            vista_class_list.append(VistaClub(i['Club Name'], i['Club Description'], i['President'], i['Vice President'], i['Treasurer'], i['Secretary'], i['Webmaster'], i['Historian'], i['Image'], i['Tags'], i['Advisor'], i['Meeting Times'], i['Meeting Room'], i["Club Video"]))
 
         return vista_class_list
 
@@ -101,7 +105,7 @@ class VistaClubHelper:
     def convert_to_df(data):
         new_list = []
         for i in data:
-            new_list.append({"Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room()})
+            new_list.append({"Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room(), "Club Video": i.get_club_video()})
         
         df = pd.DataFrame(new_list)
         return df
@@ -111,7 +115,7 @@ class VistaClubHelper:
         new_list = []
         count = 1
         for i in data:
-            new_list.append({"id": count, "Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room()})
+            new_list.append({"id": count, "Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room(), "Club Video": i.get_club_video()})
             count +=1
         return new_list
     
@@ -178,9 +182,6 @@ class VistaClubLookup:
     def sort_classes_by_hw(self, asc=True):
         sorted_df = self.df.sort_values(by="Homework", ascending=asc)
         return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
-
-
-
 
 
 clown = VistaClubLookup()
