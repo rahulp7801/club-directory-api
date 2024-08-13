@@ -43,7 +43,7 @@ def get_classes_list():
 @app.route("/api/get-clubs-by-tag", methods=['POST'])
 def get_clubs_by_tags():
     # "tags": []
-    tags = request.json['tags']
+    tags = request.json.get("tags", [])
     print(tags)
     club_list = VistaClubLookup()
     clubs = (club_list.get_clubs_by_tags(tags))
