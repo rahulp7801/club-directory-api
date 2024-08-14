@@ -6,11 +6,12 @@ from club_util import VistaClubLookup
 from user_util import verify_login
 import download_video
 import requests
+import time as time
 
 app = Flask(__name__)
 CORS(app)
 
-DOWNLOAD_DIR = "videos"
+DOWNLOAD_DIR = "../videos"
 
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
@@ -63,10 +64,10 @@ def get_all_tags():
     club_list = VistaClubLookup()
     return jsonify(club_list.get_all_tags())
 
-@app.route("/api/download-video", methods=["POST"])
+@app.route("/api/download-video", methods=["POST", "GET"])
 def download_club_video():
     video_url = request.json.get("video_url")
-
+    print("Video ", video_url)
     if not video_url:
         return jsonify({"error": "No video URL provided"}), 400
 
@@ -74,19 +75,20 @@ def download_club_video():
     if not file_id:
         return jsonify({"error": "Invalid Google Drive URL"}), 400 
     
-    file_id = download_video.extract_file_id(file_id)
     download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-    destination_path = os.path.join(DOWNLOAD_DIR, f"{file_id}.mp4")
-
-    if not os.path.exists(destination_path):
-        response = requests.get(download_url, stream=True)
+    destination_path = os.path.join(os.getcwd(), "videos", f"{file_id}.mp4")
+    print("Destination Path", destination_path)
+    print("FileID", file_id)
+    print("OSPATH:", os.path.join(os.getcwd(), "videos", "movie.mp4"))
+    if not os.path.isfile(destination_path):
+        print("Helllo\n\n\n")
+        response = requests.get(f"https://drive.google.com/uc?export=download&id={file_id}", stream=True)
         if response.status_code == 200:
-            with open(destination_path, 'wb') as f:
+            with open(f"videos/{file_id}.mp4", 'wb') as f:
                 for chunk in response.iter_content(1024):
                     f.write(chunk)
         else:
             return jsonify({"error": f"Failed to download file. Status code: {response.status_code}"}), 500
-        
     return send_file(destination_path, as_attachment=False)
 
 
