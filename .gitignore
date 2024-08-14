@@ -9,5 +9,11 @@ api/__pycache__
 
 api/creds.json
 __pycache__/
+<<<<<<< HEAD
 
 ./output.json
+=======
+api/creds.json
+/.env
+./output.json
+>>>>>>> 916c4cc (nothing)
