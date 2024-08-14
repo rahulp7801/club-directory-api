@@ -234,6 +234,7 @@ class VistaClubLookup:
     ''' END DEPRECATED CODE '''
 
 clown = VistaClubLookup()
+print(clown.get_json_string())
 # clown.get_all_tags()
 
 # classlist = clown.get_clubs_by_tags(["cs"])

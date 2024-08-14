@@ -11,3 +11,4 @@ api/creds.json
 __pycache__/
 
 ./output.json
+/videos
