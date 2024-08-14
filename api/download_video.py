@@ -26,12 +26,3 @@ def extract_file_id(url):
     return None
     
 
-response = requests.get("https://drive.google.com/uc?export=download&id=1NSWDRTi8oCq92HNrWSILuTqNxYAnIZmR", stream=True)
-if response.status_code == 200:
-    with open("./videos/videos1.mp4", 'wb') as f:
-        for chunk in response.iter_content(1024):
-            print("Here")
-            f.write(chunk)
-
-import os
-
