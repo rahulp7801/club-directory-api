@@ -8,3 +8,6 @@ api/__pycache__
 /myenv
 
 api/creds.json
+__pycache__/
+
+./output.json
