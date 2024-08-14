@@ -24,5 +24,12 @@ def extract_file_id(url):
             return match.group(1)
     
     return None
-    
 
+if not os.path.exists("videos/movie.mp4"):
+        response = requests.get("https://drive.google.com/uc?export=download&id=1XhIEzAigmOTBoHtqh7XNF-fLHi8qqDkN", stream=True)
+        if response.status_code == 200:
+            with open("videos/movie.mp4", 'wb') as f:
+                for chunk in response.iter_content(1024):
+                    f.write(chunk)
+    
+print(extract_file_id("https://drive.google.com/uc?export=download&id=1XhIEzAigmOTBoHtqh7XNF-fLHi8qqDkN"))
