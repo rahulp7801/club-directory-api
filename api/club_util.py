@@ -13,7 +13,7 @@ from jsonschema import validate, ValidationError
 # Rigor: float
 # Homework: int
 class VistaClub:
-    def __init__(self, name, description, president, vp, treasurer, secretary, webmaster, historian, image, tags, advisor, times, room, video, instagram, discord, remind, gc, phone, email) -> None:
+    def __init__(self, name, description, president, vp, treasurer, secretary, webmaster, historian, image, tags, advisor, times, room, video, instagram, discord, remind, gc, phone, email, image1, image2, highlight) -> None:
         self.name = name
         self.description = description
         try:
@@ -60,6 +60,9 @@ class VistaClub:
         self.gc = gc
         self.phone = phone
         self.email = email
+        self.image1 = image1
+        self.image2 = image2
+        self.highlight = highlight
 
     def get_name(self) -> str:
         return self.name
@@ -120,6 +123,15 @@ class VistaClub:
     
     def get_email(self) -> str:
         return self.email
+    
+    def get_image1(self) -> str:
+        return self.image1
+    
+    def get_image2(self) -> str:
+        return self.image2
+    
+    def get_highlight(self) -> str:
+        return self.highlight
 
 
     # Populate grade list given a range from the table
@@ -146,7 +158,7 @@ class VistaClubHelper:
         vista_class_list = []
 
         for i in data:
-            vista_class_list.append(VistaClub(i['Club Name'], i['Club Description'], i['President'], i['Vice President'], i['Treasurer'], i['Secretary'], i['Webmaster'], i['Historian'], i['Image'], i['Tags'], i['Advisor'], i['Meeting Times'], i['Meeting Room'], i["Club Video"], i["Instagram"], i["Discord"], i["Remind"], i['Google Classroom'], i["Phone Number"], i["Email Address"]))
+            vista_class_list.append(VistaClub(i['Club Name'], i['Club Description'], i['President'], i['Vice President'], i['Treasurer'], i['Secretary'], i['Webmaster'], i['Historian'], i['Image'], i['Tags'], i['Advisor'], i['Meeting Times'], i['Meeting Room'], i["Club Video"], i["Instagram"], i["Discord"], i["Remind"], i['Google Classroom'], i["Phone Number"], i["Email Address"], i["Image1"], i["Image2"], i["Club Highlight"]))
 
         return vista_class_list
 
@@ -154,7 +166,12 @@ class VistaClubHelper:
     def convert_to_df(data):
         new_list = []
         for i in data:
-            new_list.append({"Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room(), "Club Video": i.get_club_video(), "Instagram": i.get_instagram(), "Discord": i.get_discord(), "Remind": i.get_remind(), "Google Classroom": i.get_gc(), 'Phone Number': i.get_phone(), "Email Address": i.get_email()})
+            new_list.append({"Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), 
+                             "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), 
+                             "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(),
+                            "Meeting Room": i.get_meeting_room(), "Club Video": i.get_club_video(), "Instagram": i.get_instagram(), "Discord": i.get_discord(), 
+                            "Remind": i.get_remind(), "Google Classroom": i.get_gc(), 'Phone Number': i.get_phone(), "Email Address": i.get_email(), 
+                            "Image1": i.get_image1(), "Image2": i.get_image2(), "Club Highlight": i.get_highlight()})
         
         df = pd.DataFrame(new_list)
         return df
@@ -164,7 +181,7 @@ class VistaClubHelper:
         new_list = []
         count = 1
         for i in data:
-            new_list.append({"id": count, "Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room(), "Club Video": i.get_club_video(), "Instagram": i.get_instagram(), "Discord": i.get_discord(), "Remind": i.get_remind(), "Google Classroom": i.get_gc(), 'Phone Number': i.get_phone(), "Email Address": i.get_email()})
+            new_list.append({"id": count, "Club Name": i.get_name(), "Club Description": i.get_desc(), "President": i.get_president(), "Vice President": i.get_vp(), "Treasurer": i.get_treasurer(), "Secretary": i.get_secretary(), "Webmaster": i.get_webmaster(), "Historian": i.get_historian(), "Image": i.get_club_image(), "Tags": i.get_club_tags(), "Advisor": i.get_club_advisor(), "Meeting Times": i.get_meeting_times(), "Meeting Room": i.get_meeting_room(), "Club Video": i.get_club_video(), "Instagram": i.get_instagram(), "Discord": i.get_discord(), "Remind": i.get_remind(), "Google Classroom": i.get_gc(), 'Phone Number': i.get_phone(), "Email Address": i.get_email(), "Image1": i.get_image1(), "Image2": i.get_image2(), "Club Highlight": i.get_highlight()})
             count +=1
         return new_list
     
