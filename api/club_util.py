@@ -1,5 +1,5 @@
 import pandas as pd
-import constants
+from .constants import CLUB_SHEET_URL
 import json
 from jsonschema import validate, ValidationError
 
@@ -215,7 +215,7 @@ class VistaClubLookup:
     def __init__(self, df=None):
         if df is None:
             # Read from CSV if no DataFrame is provided
-            self.df = pd.read_csv(constants.CLUB_SHEET_URL)
+            self.df = pd.read_csv(CLUB_SHEET_URL)
 
 
         else:
@@ -245,32 +245,7 @@ class VistaClubLookup:
         # Get the unique values
         print(exploded_tags.unique().tolist())
         return json.dumps(exploded_tags.unique().tolist())
-    
-    ''' OLD CODE FOR CLASSES DEPRECATE'''
-    # def get_classes_by_weight(self, is_weighted:bool):
-    #     filtered_df = self.df[self.df["Weighted"] == is_weighted]
-    #     return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
-    
-    # # Returns all classes a grade can take
-    # def get_classes_by_grade(self, grade:int):
-    #     class_list = []
-    #     for i in self.easy_df:
-    #         if grade in i.get_grades():
-    #             class_list.append(i)
-    #     return class_list
-    
-    # def get_classes_by_ucreq(self, req:str):
-    #     filtered_df = self.df[self.df["UC a-g approved course"] == req.lower().strip()]
-    #     return VistaClubHelper.convert_data(filtered_df.to_dict(orient="records"))
-    
-    # def sort_classes_by_rigor(self, asc=True):
-    #     sorted_df = self.df.sort_values(by="Rigor", ascending=asc)
-    #     return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
 
-    # def sort_classes_by_hw(self, asc=True):
-    #     sorted_df = self.df.sort_values(by="Homework", ascending=asc)
-    #     return VistaClubHelper.convert_data(sorted_df.to_dict(orient='records'))
-    ''' END DEPRECATED CODE '''
 
 clown = VistaClubLookup()
 print(clown.get_json_string())

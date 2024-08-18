@@ -1,10 +1,10 @@
 import os
 from flask import Flask, request, jsonify, make_response, send_file
 from flask_cors import CORS
-from utilities import init_curs
-from club_util import VistaClubLookup
-from user_util import verify_login
-import download_video
+from api.utilities import init_curs
+from .club_util import VistaClubLookup
+from .user_util import verify_login
+from .download_video import extract_file_id
 import requests
 import time as time
 
@@ -71,7 +71,7 @@ def download_club_video():
     if not video_url:
         return jsonify({"error": "No video URL provided"}), 400
 
-    file_id = download_video.extract_file_id(video_url)
+    file_id = extract_file_id(video_url)
     if not file_id:
         return jsonify({"error": "Invalid Google Drive URL"}), 400 
     
