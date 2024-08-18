@@ -1,8 +1,9 @@
 {
-    "name": "my-python-app",
+    "name": "your-project-name",
     "version": "1.0.0",
-    "scripts": {
-      "postinstall": "bash build.sh"
+    "private": true,
+    "dependencies": {
+      "@vercel/python": "^1.0.0"
     }
   }
   
