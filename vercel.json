@@ -1,24 +1,22 @@
 {
     "version": 2,
     "builds": [
-      {
-        "src": "vercel-build",
-        "use": "@vercel/static-build"
-      },
-      {
-        "src": "api/app.py",
+      { 
+        "src": "api/app.py", 
         "use": "@vercel/python",
         "config": {
           "includeFiles": [
             "api/**",
-            "requirements.txt"
+            "build.sh"
           ],
           "excludeFiles": [
             ".git/**",
             ".venv/**",
             "__pycache__/**",
             "*.pyc",
-            "*.pyo"
+            "*.pyo",
+            "requirements.txt",
+            "api/requirements.txt"
           ]
         }
       }

@@ -7,6 +7,10 @@ echo "Starting custom build process..."
 echo "Installing dependencies from requirements.txt..."
 pip install -r requirements.txt
 
+echo "Current directory: $(pwd)"
+echo "Files in directory:"
+ls -la
+
 # Print installed packages
 echo "Installed Python packages:"
 pip freeze
