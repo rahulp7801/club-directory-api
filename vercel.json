@@ -2,23 +2,8 @@
     "version": 2,
     "builds": [
       {
-        "src": "api/app.py",
-        "use": "@vercel/python",
-        "config": {
-          "includeFiles": [
-            "api/**",
-            "build.sh"
-          ],
-          "excludeFiles": [
-            ".git/**",
-            ".venv/**",
-            "__pycache__/**",
-            "*.pyc",
-            "*.pyo",
-            "requirements.txt",
-            "api/requirements.txt"
-          ]
-        }
+        "src": "Dockerfile",
+        "use": "@vercel/docker"
       }
     ],
     "routes": [
@@ -27,11 +12,6 @@
       { "src": "/api/get-clubs-by-tag", "dest": "/api/app.py" },
       { "src": "/api/get-all-tags", "dest": "/api/app.py" },
       { "src": "/api/download-video", "dest": "/api/app.py" }
-    ],
-    "build": {
-      "env": {
-        "BUILD_COMMAND": "bash build.sh"
-      }
-    }
+    ]
   }
   
