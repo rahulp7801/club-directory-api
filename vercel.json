@@ -7,7 +7,8 @@
         "config": {
           "includeFiles": [
             "api/**",
-            "requirements.txt"
+            "requirements.txt",
+            "build.sh"  
           ],
           "excludeFiles": [
             ".git/**",

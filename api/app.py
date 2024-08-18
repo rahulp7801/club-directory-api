@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, make_response, send_file
 from flask_cors import CORS
 from api.utilities import init_curs
 from .club_util import VistaClubLookup
-from .user_util import verify_login
+# from .user_util import verify_login
 from .download_video import extract_file_id
 import requests
 import time as time
@@ -23,15 +23,15 @@ print(SECRET_KEY)
 def before_request():
     init_curs()
 
-@app.route("/api/login-google", methods=["POST"])
-def login_google():
-    data = request.json
-    id_token = data.get("idToken")
+# @app.route("/api/login-google", methods=["POST"])
+# def login_google():
+#     data = request.json
+#     id_token = data.get("idToken")
 
-    if not id_token:
-        return jsonify({'error': 'ID token is required'}), 400
+#     if not id_token:
+#         return jsonify({'error': 'ID token is required'}), 400
     
-    return verify_login(id_token)
+#     return verify_login(id_token)
 
 
 @app.route("/api/get-clubs-list", methods=['GET'])
