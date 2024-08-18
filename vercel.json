@@ -1,7 +1,23 @@
 {
     "version": 2,
     "builds": [
-      { "src": "api/app.py", "use": "@vercel/python" }
+      { 
+        "src": "api/app.py", 
+        "use": "@vercel/python",
+        "config": {
+          "includeFiles": [
+            "api/**",
+            "requirements.txt"
+          ],
+          "excludeFiles": [
+            ".git/**",
+            ".venv/**",
+            "__pycache__/**",
+            "*.pyc",
+            "*.pyo"
+          ]
+        }
+      }
     ],
     "routes": [
       { "src": "/api/login-google", "dest": "/api/app.py" },
