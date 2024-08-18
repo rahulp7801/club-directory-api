@@ -7,7 +7,6 @@
         "config": {
           "includeFiles": [
             "api/**",
-            "requirements.txt",
             "build.sh"  
           ],
           "excludeFiles": [
@@ -15,7 +14,9 @@
             ".venv/**",
             "__pycache__/**",
             "*.pyc",
-            "*.pyo"
+            "*.pyo",
+            "requirements.txt",
+            "api/requirements.txt"
           ]
         }
       }
