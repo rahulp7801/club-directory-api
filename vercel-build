@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Running custom build steps..."
+
+# Run your build.sh script
+./build.sh
+
+echo "Custom build steps completed."
