@@ -1,7 +1,10 @@
 {
     "version": 2,
     "builds": [
-      { "src": "api/app.py", "use": "@vercel/python" }
+      {
+        "src": "Dockerfile",
+        "use": "@vercel/docker"
+      }
     ],
     "routes": [
       { "src": "/api/login-google", "dest": "/api/app.py" },

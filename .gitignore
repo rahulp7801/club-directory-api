@@ -6,6 +6,7 @@ api/.env
 api/__pycache__
 
 /myenv
+/.vercel
 
 __pycache__/
 
