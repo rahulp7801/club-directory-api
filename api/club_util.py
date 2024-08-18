@@ -1,7 +1,6 @@
 import pandas as pd
 from .constants import CLUB_SHEET_URL
 import json
-from jsonschema import validate, ValidationError
 
 # Class Name: String
 # Grades: String (Will convert to list)
